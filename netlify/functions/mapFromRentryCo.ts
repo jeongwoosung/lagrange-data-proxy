@@ -25,6 +25,7 @@ const handler: Handler = async (event: HandlerEvent, context: HandlerContext) =>
 
 async function loadMap(event: HandlerEvent) {
     const id = event.queryStringParameters?.map;
+    console.log(id);
     if (!id) {
         return { statusCode: 400, headers: getCorsHeaders(event) };
     }
