@@ -25,14 +25,11 @@ const handler: Handler = async (event: HandlerEvent, context: HandlerContext) =>
 
 async function loadMap(event: HandlerEvent) {
     const id = event.queryStringParameters?.map;
-    console.log(id);
-    if (!id) {
-        return { statusCode: 400, headers: getCorsHeaders(event) };
-    }
+
+
 
     try {
         const response = await axios.get(`https://rentry.co/api/raw/${id}`);
-        console.log(`https://rentry.co/api/raw/${id}`);
         const mapData = typeof response.data === 'string' ? JSON.parse(response.data) : response.data;
         if (typeof mapData.content !== 'string') {
             return {
@@ -42,7 +39,6 @@ async function loadMap(event: HandlerEvent) {
         }
 
         return { statusCode: 200, headers: { 'Content-Type': 'text/plain', ...getCorsHeaders(event) }, body: mapData.content };
-        console.log(mapData.content);
     } catch (e) {
         return { statusCode: 500, body: `Failed to load map data (${e})`, headers: getCorsHeaders(event) };
     }
